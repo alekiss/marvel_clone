@@ -10,8 +10,6 @@ export const Title = styled.h1`
   color: white;
 `;
 export const CardsContainer = styled.div`
-`;
-export const CardsContent = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   margin: 0 auto;
@@ -31,34 +29,11 @@ export const SearchContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-export const CardContent = styled.div``;
-
-export const ViewMoreContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-export const ViewMore = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  border-radius: 10px;
-  width: 180px;
-  font-size: 22px;
-  font-family: "MArvel", sans-serif;
-  font-weight: 700;
-  cursor: pointer;
-  color: black;
-  background-color: white;
-
-  :hover {
-    background-color: red;
+  svg{
+    margin-left: 20px;
+    width: 50px;
+    height: 50px;
     color: white;
+    cursor: pointer;
   }
-`;
-export const ViewMoreImg = styled.img`
-  width: 25px;
-  margin-left: 5px;
-`;
+`

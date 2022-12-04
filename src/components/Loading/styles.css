@@ -1,0 +1,44 @@
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 100px 0;
+}
+
+.loading-container {
+  width: 200px;
+  height: 75px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.text-loading {
+  font-size: 22px;
+  margin: auto;
+}
+
+.ball {
+  animation: bounce 0.5s alternate infinite;
+}
+
+.ball img {
+  height: 45px;
+}
+
+.ball:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.ball:nth-child(3) {
+  animation-delay: 0.32s;
+}
+
+@keyframes bounce {
+  from {
+    transform: scale(1.25);
+  }
+  to {
+    transform: translateY(-50px) scaleX(1);
+  }
+}
