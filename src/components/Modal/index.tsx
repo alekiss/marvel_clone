@@ -25,6 +25,16 @@ export interface ResponseDataModal {
     extension: string;
     path: string;
   };
+  series: {
+    items: {
+      name: string;
+    };
+  };
+  comics: {
+    items: {
+      name: string;
+    };
+  };
 }
 
 const Modal: React.FC<ModalProps> = ({ handleModal, character }) => {
@@ -32,13 +42,21 @@ const Modal: React.FC<ModalProps> = ({ handleModal, character }) => {
   return (
     <ModalContainer>
       <ModalContent>
-        <Image src={`${character?.thumbnail.path}.${character?.thumbnail.extension}`} />
+        <Image
+          src={`${character?.thumbnail.path}.${character?.thumbnail.extension}`}
+        />
         <Descriptions>
           <CloseContainer>
             <CloseButton onClick={() => handleModal()} src={CloseIcon} />
           </CloseContainer>
           <Title>{character?.name}</Title>
           <Description>{character?.description}</Description>
+          {/* Séries
+          <Description>
+            {character?.comics.items.map((i: any) => (
+              <div>{i.name}</div>
+            ))}
+          </Description> */}
         </Descriptions>
       </ModalContent>
     </ModalContainer>

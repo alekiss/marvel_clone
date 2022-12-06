@@ -27,6 +27,18 @@ export interface ResponseData {
     extension: string;
     path: string;
   };
+  series: {
+    items: {
+      name:string;
+      available: number;
+    }
+  };
+  comics: {
+    items: {
+      name:string;
+      available: number;
+    }
+  }
 }
 
 const Characters = () => {

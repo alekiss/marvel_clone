@@ -19,3 +19,14 @@ export const Logo = styled.img`
 export const Text = styled.p`
   color: white;
 `
+export const LinksContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+export const Link = styled.a`
+  color: white;
+  padding: 0 5px;
+  margin-top: 5px;
+`

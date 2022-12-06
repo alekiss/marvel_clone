@@ -15,7 +15,7 @@ export const ModalContainer = styled.div`
 `;
 export const ModalContent = styled.div`
   width: 70%;
-  min-height: 70%;
+  max-height: 95%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   background-color: white;
@@ -41,6 +41,7 @@ export const Image = styled.img`
   width: 100%;
   height: 100%;
   border-radius: 15px;
+  overflow: hidden;
 `;
 
 export const Title = styled.h1`
