@@ -54,7 +54,7 @@ export const ViewMore = styled.button`
   background-color: white;
 
   :hover {
-    background-color: red;
+    background-color: #e62429;
     color: white;
   }
 `;

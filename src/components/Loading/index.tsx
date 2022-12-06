@@ -16,7 +16,7 @@ const Loading = () => {
           <div className="ball">
             <img alt="loading" src={mask} />
           </div>
-          <span className="text-loading">Carregando...</span>
+          <span className="text-loading">Loading...</span>
         </div>
       </div>
     </>

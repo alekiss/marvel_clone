@@ -26,4 +26,9 @@ export const Text = styled.h2`
   padding: 0 10px;
   cursor: pointer;
   color: white;
+  font-size: 30px;
+
+  :hover {
+    border-bottom: 3px solid #e62429;
+  }
 `

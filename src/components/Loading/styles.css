@@ -5,17 +5,19 @@
 }
 
 .loading-container {
-  width: 200px;
+  width: 180px;
   height: 75px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  margin-top: 80px;
 }
 
 .text-loading {
-  font-size: 22px;
+  font-size: 28px;
   margin: auto;
+  color: white;
 }
 
 .ball {

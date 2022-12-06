@@ -1,8 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { CardsContainer, Container, Search, SearchContainer, Title } from "./styles";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  CardContent,
+  CardsContainer,
+  CardsContent,
+  Container,
+  Search,
+  SearchContainer,
+  Title,
+  ViewMore,
+  ViewMoreContainer,
+  ViewMoreImg,
+} from "./styles";
 import api from "../../services/api";
 import Cards from "../../components/Cards";
-import { ImSearch } from "react-icons/im";
+import NotFound from "../../components/NotFound";
+import ViewMoreIcon from "./../../assets/s2.png";
+import ModalComics from "../../components/ModalComics";
+import ImageNotFound from "./../../assets/notfound2.png";
+import Loading from "../../components/Loading";
 
 export interface ResponseData {
   id: string;
@@ -15,29 +30,58 @@ export interface ResponseData {
 }
 
 const Comics = () => {
-
   const [comics, setComics] = useState<ResponseData[]>([]);
-  const [search, setSearch] = useState("");
-  const [url, setUrl] = useState("/comics?");
+  const [search, setSearch] = useState("/comics?");
+  const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [selectedComic, setSelectedComic] = useState<ResponseData>();
 
-  useEffect(() => {
-    api
-      .get(`${url}`)
-      .then((response) => setComics(response.data.data.results))
-      .catch((error) => console.log(error));
-  }, [url, search]);
-
-  const searchMarvel = () => {
-    setUrl(`/comics?titleStartsWith=${search}`);
+  const toggleModal = () => {
+    setShowModal((prev) => !prev);
   };
 
-  const handleButton = (e: any) => {
-    e.preventDefault();
-    if (e === "") {
-      setUrl("/comics?");
-    }
+  const handleModal = (value: ResponseData) => {
+    toggleModal();
+    setSelectedComic(value);
+  };
 
-    searchMarvel();
+  const fetchComics = () => {
+    setLoading(true);
+    api
+      .get(`${search}`)
+      .then((response) => {
+        setComics(response.data.data.results);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  };
+
+  const handleMore = useCallback(async () => {
+    try {
+      const offset = comics.length;
+      const response = await api.get(`${search}`, {
+        params: {
+          offset,
+        },
+      });
+
+      setComics([...comics, ...response.data.data.results]);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [comics, search]);
+
+  useEffect(() => {
+    fetchComics();
+  }, [search]);
+
+  const onChangeHandler = (event: any) => {
+    event.target.value.length === 0
+      ? setSearch("/comics?")
+      : setSearch(`/comics?titleStartsWith=${event.target.value}`);
   };
 
   return (
@@ -48,21 +92,43 @@ const Comics = () => {
           type="search"
           placeholder="Search Here"
           className="search"
-          onChange={(e) => setSearch(e.target.value)}
-          // onKeyPress={searchMarvel}
+          onChange={onChangeHandler}
         />
-        <ImSearch onClick={handleButton} />
       </SearchContainer>
 
-      <CardsContainer>
-        {comics.map((comic) => (
-          <Cards
-            image={`${comic.thumbnail.path}.${comic.thumbnail.extension}`}
-            name={comic.title}
-            description={comic.description}
-          />
-        ))}
-      </CardsContainer>
+      {loading ? (
+        <Loading />
+      ) : comics.length === 0 ? (
+        <NotFound
+          title="WARNING, HYDRA INFILTRATION."
+          text="Check the name and try again."
+          image={ImageNotFound}
+        />
+      ) : (
+        <CardsContainer>
+          <CardsContent>
+            {comics.map((comic, index) => (
+              <CardContent onClick={() => handleModal(comic)} key={index}>
+                <Cards
+                  image={`${comic.thumbnail.path}.${comic.thumbnail.extension}`}
+                  name={comic.title}
+                  description={comic.description}
+                  showModal={showModal}
+                />
+              </CardContent>
+            ))}
+          </CardsContent>
+          <ViewMoreContainer>
+            <ViewMore onClick={handleMore}>
+              View More <ViewMoreImg src={ViewMoreIcon} />
+            </ViewMore>
+          </ViewMoreContainer>
+        </CardsContainer>
+      )}
+
+      {showModal ? (
+        <ModalComics comic={selectedComic} handleModal={toggleModal} />
+      ) : null}
     </Container>
   );
 };

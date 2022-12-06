@@ -16,6 +16,8 @@ import Cards from "../../components/Cards";
 import Modal from "../../components/Modal";
 import NotFound from "../../components/NotFound";
 import ViewMoreIcon from "./../../assets/s2.png";
+import ImageNotFound from "./../../assets/notfound.png";
+import Loading from "../../components/Loading";
 
 export interface ResponseData {
   id: string;
@@ -32,16 +34,29 @@ const Characters = () => {
   const [search, setSearch] = useState("/characters?");
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [selectedCharacter, setSelectedCharacter] = useState<ResponseData>();
 
-  const handleModal = () => {
+  const toggleModal = () => {
     setShowModal((prev) => !prev);
   };
 
+  const handleModal = (value: ResponseData) => {
+    toggleModal();
+    setSelectedCharacter(value);
+  };
+
   const fetchCharacters = () => {
+    setLoading(true);
     api
       .get(`${search}`)
-      .then((response) => setCharacters(response.data.data.results))
-      .catch((error) => console.log(error));
+      .then((response) => {
+        setCharacters(response.data.data.results);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
   };
 
   const handleMore = useCallback(async () => {
@@ -69,8 +84,6 @@ const Characters = () => {
       : setSearch(`/characters?nameStartsWith=${event.target.value}`);
   };
 
-  console.log(characters)
-
   return (
     <Container>
       <Title>Characters</Title>
@@ -83,29 +96,24 @@ const Characters = () => {
         />
       </SearchContainer>
 
-      {characters.length === 0 ? (
-        <NotFound />
+      {loading ? <Loading /> : 
+        characters.length === 0 ? (
+        <NotFound
+          title="Oops, Jarvis didn't find anything."
+          text="Check the name and try again."
+          image={ImageNotFound}
+        />
       ) : (
         <CardsContainer>
           <CardsContent>
-            {characters.map((character) => (
-              <CardContent onClick={handleModal}>
+            {characters.map((character, index) => (
+              <CardContent onClick={() => handleModal(character)} key={index}>
                 <Cards
                   image={`${character.thumbnail.path}.${character.thumbnail.extension}`}
                   name={character.name}
                   description={character.description}
-                  handleModal={handleModal}
                   showModal={showModal}
                 />
-
-                {/* {showModal ? (
-                  <Modal
-                    handleModal={handleModal}
-                    image={`${character.thumbnail.path}.${character.thumbnail.extension}`}
-                    name={character.name}
-                    description={character.description}
-                  />
-                ) : null} */}
               </CardContent>
             ))}
           </CardsContent>
@@ -116,6 +124,10 @@ const Characters = () => {
           </ViewMoreContainer>
         </CardsContainer>
       )}
+      
+      {showModal ? (
+        <Modal character={selectedCharacter} handleModal={toggleModal} />
+      ) : null}
     </Container>
   );
 };

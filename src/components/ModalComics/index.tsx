@@ -10,16 +10,16 @@ import {
   Title,
 } from "./styles";
 import CloseIcon from "./../../assets/Close.png";
-import { ResponseData } from "../../pages/Characters";
+import { ResponseData } from "../../pages/Comics";
 
 type ModalProps = {
   handleModal: () => void;
-  character?: ResponseData;
+  comic?: ResponseData;
 };
 
 export interface ResponseDataModal {
   id: string;
-  name: string;
+  title: string;
   description: string;
   thumbnail: {
     extension: string;
@@ -27,22 +27,22 @@ export interface ResponseDataModal {
   };
 }
 
-const Modal: React.FC<ModalProps> = ({ handleModal, character }) => {
+const ModalComics: React.FC<ModalProps> = ({ handleModal, comic }) => {
 
   return (
     <ModalContainer>
       <ModalContent>
-        <Image src={`${character?.thumbnail.path}.${character?.thumbnail.extension}`} />
+        <Image src={`${comic?.thumbnail.path}.${comic?.thumbnail.extension}`} />
         <Descriptions>
           <CloseContainer>
             <CloseButton onClick={() => handleModal()} src={CloseIcon} />
           </CloseContainer>
-          <Title>{character?.name}</Title>
-          <Description>{character?.description}</Description>
+          <Title>{comic?.title}</Title>
+          <Description>{comic?.description}</Description>
         </Descriptions>
       </ModalContent>
     </ModalContainer>
   );
 };
 
-export default React.memo(Modal);
+export default React.memo(ModalComics);

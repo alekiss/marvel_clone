@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   CloseButton,
   CloseContainer,
@@ -10,16 +10,16 @@ import {
   Title,
 } from "./styles";
 import CloseIcon from "./../../assets/Close.png";
-import { ResponseData } from "../../pages/Characters";
+import { ResponseData } from "../../pages/Series";
 
 type ModalProps = {
   handleModal: () => void;
-  character?: ResponseData;
+  serie?: ResponseData;
 };
 
 export interface ResponseDataModal {
   id: string;
-  name: string;
+  title: string;
   description: string;
   thumbnail: {
     extension: string;
@@ -27,22 +27,22 @@ export interface ResponseDataModal {
   };
 }
 
-const Modal: React.FC<ModalProps> = ({ handleModal, character }) => {
+const ModalSeries: React.FC<ModalProps> = ({ handleModal, serie }) => {
 
   return (
     <ModalContainer>
       <ModalContent>
-        <Image src={`${character?.thumbnail.path}.${character?.thumbnail.extension}`} />
+        <Image src={`${serie?.thumbnail.path}.${serie?.thumbnail.extension}`} />
         <Descriptions>
           <CloseContainer>
             <CloseButton onClick={() => handleModal()} src={CloseIcon} />
           </CloseContainer>
-          <Title>{character?.name}</Title>
-          <Description>{character?.description}</Description>
+          <Title>{serie?.title}</Title>
+          <Description>{serie?.description}</Description>
         </Descriptions>
       </ModalContent>
     </ModalContainer>
   );
 };
 
-export default React.memo(Modal);
+export default React.memo(ModalSeries);
