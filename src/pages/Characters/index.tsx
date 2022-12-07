@@ -18,41 +18,21 @@ import NotFound from "../../components/NotFound";
 import ViewMoreIcon from "./../../assets/s2.png";
 import ImageNotFound from "./../../assets/notfound.png";
 import Loading from "../../components/Loading";
-
-export interface ResponseData {
-  id: string;
-  name: string;
-  description: string;
-  thumbnail: {
-    extension: string;
-    path: string;
-  };
-  series: {
-    items: {
-      name:string;
-      available: number;
-    }
-  };
-  comics: {
-    items: {
-      name:string;
-      available: number;
-    }
-  }
-}
+import { CharacterData } from "../../model/character";
+import { MarvelResponseData } from "../../model/marvelResponse";
 
 const Characters = () => {
-  const [characters, setCharacters] = useState<ResponseData[]>([]);
+  const [characters, setCharacters] = useState<CharacterData[]>([]);
   const [search, setSearch] = useState("/characters?");
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [selectedCharacter, setSelectedCharacter] = useState<ResponseData>();
+  const [selectedCharacter, setSelectedCharacter] = useState<CharacterData>();
 
   const toggleModal = () => {
     setShowModal((prev) => !prev);
   };
 
-  const handleModal = (value: ResponseData) => {
+  const handleModal = (value: CharacterData) => {
     toggleModal();
     setSelectedCharacter(value);
   };
@@ -60,7 +40,7 @@ const Characters = () => {
   const fetchCharacters = () => {
     setLoading(true);
     api
-      .get(`${search}`)
+      .get<MarvelResponseData<CharacterData>>(`${search}`)
       .then((response) => {
         setCharacters(response.data.data.results);
         setLoading(false);
@@ -123,8 +103,6 @@ const Characters = () => {
                 <Cards
                   image={`${character.thumbnail.path}.${character.thumbnail.extension}`}
                   name={character.name}
-                  description={character.description}
-                  showModal={showModal}
                 />
               </CardContent>
             ))}

@@ -18,29 +18,21 @@ import ViewMoreIcon from "./../../assets/s2.png";
 import ModalSeries from "../../components/ModalSeries";
 import ImageNotFound from "./../../assets/notfound3.png";
 import Loading from "../../components/Loading";
-
-export interface ResponseData {
-  id: string;
-  title: string;
-  description: string;
-  thumbnail: {
-    extension: string;
-    path: string;
-  };
-}
+import { MarvelResponseData } from "../../model/marvelResponse";
+import { SerieData } from "../../model/serie";
 
 const Series = () => {
-  const [series, setSeries] = useState<ResponseData[]>([]);
+  const [series, setSeries] = useState<SerieData[]>([]);
   const [search, setSearch] = useState("/series?");
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [selectedSerie, setSelectedSerie] = useState<ResponseData>();
+  const [selectedSerie, setSelectedSerie] = useState<SerieData>();
 
   const toggleModal = () => {
     setShowModal((prev) => !prev);
   };
 
-  const handleModal = (value: ResponseData) => {
+  const handleModal = (value: SerieData) => {
     toggleModal();
     setSelectedSerie(value);
   };
@@ -48,7 +40,7 @@ const Series = () => {
   const fetchSeries = () => {
     setLoading(true);
     api
-      .get(`${search}`)
+      .get<MarvelResponseData<SerieData>>(`${search}`)
       .then((response) => {
         setSeries(response.data.data.results);
         setLoading(false);
@@ -112,8 +104,6 @@ const Series = () => {
                 <Cards
                   image={`${serie.thumbnail.path}.${serie.thumbnail.extension}`}
                   name={serie.title}
-                  description={serie.description}
-                  showModal={showModal}
                 />
               </CardContent>
             ))}

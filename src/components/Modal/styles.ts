@@ -21,9 +21,11 @@ export const ModalContent = styled.div`
   background-color: white;
   box-shadow: 4px 4px 8px rgba(1, 28, 64, 0.2);
   border-radius: 15px;
+  overflow: auto;
 `;
 export const Descriptions = styled.div`
   padding: 10px;
+  overflow-y: scroll;
 `;
 
 export const CloseButton = styled.img`
@@ -47,6 +49,9 @@ export const Image = styled.img`
 export const Title = styled.h1`
   margin: 10px 0 20px;
 `
+export const Title2 = styled.h2`
+  margin: 10px 0 10px;
+`
 export const Description = styled.p`
-  margin: 10px 0 20px;
+  margin: 10px 0 10px;
 `

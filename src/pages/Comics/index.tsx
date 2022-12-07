@@ -18,29 +18,21 @@ import ViewMoreIcon from "./../../assets/s2.png";
 import ModalComics from "../../components/ModalComics";
 import ImageNotFound from "./../../assets/notfound2.png";
 import Loading from "../../components/Loading";
-
-export interface ResponseData {
-  id: string;
-  title: string;
-  description: string;
-  thumbnail: {
-    extension: string;
-    path: string;
-  };
-}
+import { MarvelResponseData } from "../../model/marvelResponse";
+import { ComicData } from "../../model/comics";
 
 const Comics = () => {
-  const [comics, setComics] = useState<ResponseData[]>([]);
+  const [comics, setComics] = useState<ComicData[]>([]);
   const [search, setSearch] = useState("/comics?");
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [selectedComic, setSelectedComic] = useState<ResponseData>();
+  const [selectedComic, setSelectedComic] = useState<ComicData>();
 
   const toggleModal = () => {
     setShowModal((prev) => !prev);
   };
 
-  const handleModal = (value: ResponseData) => {
+  const handleModal = (value: ComicData) => {
     toggleModal();
     setSelectedComic(value);
   };
@@ -48,7 +40,7 @@ const Comics = () => {
   const fetchComics = () => {
     setLoading(true);
     api
-      .get(`${search}`)
+      .get<MarvelResponseData<ComicData>>(`${search}`)
       .then((response) => {
         setComics(response.data.data.results);
         setLoading(false);
@@ -112,8 +104,6 @@ const Comics = () => {
                 <Cards
                   image={`${comic.thumbnail.path}.${comic.thumbnail.extension}`}
                   name={comic.title}
-                  description={comic.description}
-                  showModal={showModal}
                 />
               </CardContent>
             ))}

@@ -8,24 +8,15 @@ import {
   ModalContainer,
   ModalContent,
   Title,
+  Title2,
 } from "./styles";
 import CloseIcon from "./../../assets/Close.png";
-import { ResponseData } from "../../pages/Comics";
+import { ComicData } from "../../model/comics";
 
 type ModalProps = {
   handleModal: () => void;
-  comic?: ResponseData;
+  comic?: ComicData;
 };
-
-export interface ResponseDataModal {
-  id: string;
-  title: string;
-  description: string;
-  thumbnail: {
-    extension: string;
-    path: string;
-  };
-}
 
 const ModalComics: React.FC<ModalProps> = ({ handleModal, comic }) => {
 
@@ -39,6 +30,22 @@ const ModalComics: React.FC<ModalProps> = ({ handleModal, comic }) => {
           </CloseContainer>
           <Title>{comic?.title}</Title>
           <Description>{comic?.description}</Description>
+          <Title2>Creators</Title2>
+          <Description>
+            {comic?.creators.items.map((item) => (
+              <div>{item.name}</div>
+            ))}
+          </Description>
+          <Title2>Serie</Title2>
+          <Description>
+            {comic?.series.name}
+          </Description>
+          <Title2>Stories</Title2>
+          <Description>
+            {comic?.stories.items.map((item) => (
+              <div>{item.name}</div>
+            ))}
+          </Description>
         </Descriptions>
       </ModalContent>
     </ModalContainer>
