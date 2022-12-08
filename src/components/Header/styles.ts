@@ -21,6 +21,12 @@ export const Logo = styled.img`
 export const Options = styled.div`
   display: flex;
   flex-direction: row;
+
+  .active {
+    border-bottom: 3px solid #e62429;
+    color: #e62429;
+    font-size: 35px;
+  }
 `
 export const Text = styled.h2`
   padding: 0 10px;
