@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { device } from "../../assets/styles/Breakpoints";
+
 export const Container = styled.div`
   display: flex;
   justify-content: space-between;
@@ -27,7 +29,50 @@ export const Options = styled.div`
     color: #e62429;
     font-size: 35px;
   }
+
+  ${device.sm`
+    display: none;
+    `}
 `
+export const OptionsSmall = styled.div`
+@media screen and (min-width: 768px) {
+  display:none;
+}
+
+  display: flex;
+  flex-direction: row;
+  position: relative;
+
+  .active {
+    border-bottom: 3px solid #e62429;
+    color: #e62429;
+    font-size: 35px;
+  }
+
+  svg{
+    color: white;
+    cursor: pointer;
+  }
+`
+export const ModalOptions = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  position: absolute;
+  background-color: black;
+  height: 100vw;
+  width: 50%;
+  top: 0;
+  right: 0;
+  padding: 10px;
+
+  svg{
+    color: white;
+    width: 40px;
+    height: 40px;
+  }
+`
+
 export const Text = styled.h2`
   padding: 0 10px;
   cursor: pointer;

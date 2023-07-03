@@ -19,11 +19,3 @@ code {
 .image-gallery-content .image-gallery-slide .image-gallery-image {
   /* height: 100vh; */
 }
-
-.links button {
-    border-bottom: 3px solid yellow;
-}
-
-button.active {
-  border-bottom: 3px solid green;
-}
